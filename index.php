@@ -1,4 +1,6 @@
 <?php
+set_time_limit(1200);
+
 // === Konfigurasi API ===
 $gemini_api_key = 'AIzaSyANttYPw4vHUB00GtBT7NPdjm-oxrJSkDQ';
 $wp_url = rtrim('http://localhost/wordpress/wp-json/wp/v2', '/');
@@ -52,7 +54,7 @@ Gunakan struktur berikut:
 - Tambahkan di akhir: <p><strong>Penulis: $penulis</strong></p>
 
 Gunakan tag HTML langsung (h1, h2, p, ul, ol, li). Markdown, tanda *, <html> ,atau simbol aneh dilarang keras!!
-membalas pesan dilarang keras!!
+jangan membalas pesan!!!
 jangan repeat judul yang ada dalam 1 artikel!!
 PROMPT;
 
@@ -96,6 +98,7 @@ function callGemini($prompt, $api_key) {
 function cleanArticle($text, $judul) {
     $text = preg_replace("/<h1[^>]*>.*?<\/h1>/i", '', $text);
     $text = preg_replace("/^.*$judul.*$/im", '', $text);
+    $text = str_replace("html", '', $text);
     $text = str_replace('`', '', $text);
     return trim($text);
 }
